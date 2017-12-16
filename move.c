@@ -39,5 +39,13 @@ void *getinput(void *p)
 								break;
 				}
 		waitinput = 1;
+}
 
+void speedcontrol( int length, int level ) {
+	int speed;
+	speed = 100-length*level;
+	if (speed > 0)
+		usleep(speed*1000/1000*1000);
+	else
+		usleep(speed*10/1000*1000);
 }

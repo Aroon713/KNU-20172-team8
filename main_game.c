@@ -57,9 +57,9 @@ void main()
 		if(check_collision(head)==9)break;
 		is_get_food(head);
 		update_frame(head);
-		if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);
+		if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);//스레드를 추가해 입력받기
 		
-		usleep(1000/10*1000);
+		speedcontrol(body_length, 5);//속도 조절부
 	}
 	getchar();
 	endwin();
@@ -111,9 +111,11 @@ void is_get_food(pbody head)
 		current->next_body=new;
 		new->before_body=current;
 		new->next_body=NULL;
-		new->pos_x=row+1;
-		new->pos_y=col+1;
+		new->pos_y=row+1;
+		new->pos_x=col+1;
 		drop_food(head);
+		body_length += 1;
+		
 	}
 }
 
@@ -121,7 +123,7 @@ void drop_food(pbody head)
 {
 	int pos_x, pos_y;
 	pbody current;
-//	srand((unsigned int)time(NULL));
+	srand((unsigned int)time(NULL));
 	pos_x=rand()%row;
 	pos_y=rand()%col;
 
@@ -154,6 +156,8 @@ int check_collision(pbody head)
 	while(current->next_body!=NULL)
 	{
 		current=current->next_body;
+		if(head->pos_x==0 || head->pos_x==row || head->pos_y == 0 || head->pos_y == col)
+			return 9;
 		if(head->pos_x==current->pos_x&&head->pos_y==current->pos_y)
 			return 9;
 	}

@@ -12,7 +12,7 @@
 #include <pthread.h>
 
 void *getinput(void *p);
-
+void speedcontrol(int, int);
 
 typedef struct body{//바디를 이루는 문양이 될 예정
 		int pos_x;//x축 위치
