@@ -6,15 +6,7 @@
 #include <termios.h>
 #include <time.h>
 
-int body_length=1;//먹이 먹고 나면 1씩 올릴 예정
-
-typedef struct body{//바디를 이루는 문양이 될 예정
-	int pos_x;//x축 위치
-	int pos_y;//y축 위치
-	struct body *next_body;
-	struct body *before_body;//바디는 링크드 리스트로 구현
-}body;
-typedef struct body* pbody;
+int body_length=1;//먹이 먹고 나면 1씩 올릴 예정;
 
 typedef struct food//음식
 {
@@ -29,11 +21,13 @@ void update_frame(pbody);//프레임 새로고침
 void is_get_food(pbody);//음식과 헤드의 위치가 같은지 확인
 void drop_food(pbody);//음식을 랜덤한 위치에 생성
 int check_collision(pbody);
+int waitinput = 1;
 void main()
 {
 	pbody head=(pbody)malloc(sizeof(body));
-	char c;
-	
+	int c;
+	ptread_t inputkey;
+
 	initscr();
 	clear();
 	getmaxyx(stdscr, row, col);
@@ -53,12 +47,12 @@ void main()
 	addch('O');
 	refresh();
 	is_get_food(head);
+	c = 'w'
 	while(1)
 	{
 		move_next_frame(head);
 		refresh();
 		while(1){
-		c=getchar();
 		if(c=='w'||c=='W'){head->pos_x-=1;break;}
 		else if(c=='s'||c=='S'){head->pos_x+=1;break;}
 		else if(c=='a'||c=='A'){head->pos_y-=1;break;}
@@ -67,6 +61,9 @@ void main()
 		if(check_collision(head)==9)break;
 		is_get_food(head);
 		update_frame(head);
+		if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);
+		
+		usleep(1000/10*1000);
 	}
 	getchar();
 	endwin();
