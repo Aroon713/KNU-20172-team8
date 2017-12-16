@@ -1,19 +1,15 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <curses.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
 #include <termios.h>
 #include <time.h>
+#include <pthread.h>*/
+#include "snake.h"
 
 int body_length=1;//먹이 먹고 나면 1씩 올릴 예정;
 
-typedef struct food//음식
-{
-	int pos_x;
-	int pos_y;
-}food;
-typedef struct food* pfood;
 pfood food_target;
 int row, col;
 void move_next_frame(pbody);//다음 프레임으로 넘어가기 전, 바디의 좌표를 다음 위치로 옮긴다.
@@ -26,7 +22,7 @@ void main()
 {
 	pbody head=(pbody)malloc(sizeof(body));
 	int c;
-	ptread_t inputkey;
+	pthread_t inputkey;
 
 	initscr();
 	clear();
@@ -47,7 +43,7 @@ void main()
 	addch('O');
 	refresh();
 	is_get_food(head);
-	c = 'w'
+	c = 'w';
 	while(1)
 	{
 		move_next_frame(head);

@@ -2,9 +2,16 @@
  *	snake.h
  *
  */
+#include <stdio.h>
+#include <curses.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include <termios.h>
+#include <time.h>
+#include <pthread.h>
 
-#include	<stdio.h>
-#include	<unistd.h>
+void *getinput(void *p);
 
 
 typedef struct body{//바디를 이루는 문양이 될 예정
@@ -14,9 +21,10 @@ typedef struct body{//바디를 이루는 문양이 될 예정
 		struct body *before_body;//바디는 링크드 리스트로 구현
 }body;
 typedef struct body* pbody;
-typedef struct food
-{
+
+typedef struct food{
+
 	int pos_x;
-	int pos_y
-}
+	int pos_y;
+}food;
 typedef struct food *pfood;
