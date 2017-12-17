@@ -62,7 +62,7 @@ void main()
 		if(check_collision(head)==9)break;
 		is_get_food(head);
 		update_frame(head);
-		//if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);//스레드를 추가해 입력받기
+		if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);//스레드를 추가해 입력받기
 		
 		speedcontrol(body_length, 5);//속도 조절부
 	}
