@@ -196,7 +196,7 @@ int check_collision(pbody head)
 	while(current->next_body!=NULL)
 	{
 		current=current->next_body;
-		if(head->pos_x==0 || head->pos_x==row || head->pos_y == 0 || head->pos_y == col)
+		if(head->pos_x<0 || head->pos_x>row || head->pos_y < 0 || head->pos_y > col)
 			return 9;
 		if(head->pos_x==current->pos_x&&head->pos_y==current->pos_y)
 			return 9;
