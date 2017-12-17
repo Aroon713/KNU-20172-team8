@@ -377,7 +377,6 @@ void runGame() //control game
            void initGame() //Start 화면
     {
         Pos(40, 12);
-        
         system("title Welcome to the snake game!");
         printf("Welcome to the snake game!");
         system("pause");
