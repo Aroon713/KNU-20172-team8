@@ -37,7 +37,7 @@ void main()
 
 	food_target=(pfood)malloc(sizeof(food));
 	food_target->pos_x=row/2;
-	food_target->pos_y=col/2;
+	food_target->pos_y=col/2;//테스트중 발생한 버그수정용 음식
 	head->pos_x=row/2;
 	head->pos_y=col/2;
 	head->next_body=NULL;
