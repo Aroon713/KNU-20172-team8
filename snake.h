@@ -14,6 +14,7 @@
 void *getinput(void *p);
 void speedcontrol(int, int);
 int start();
+int finish();
 
 typedef struct body{//바디를 이루는 문양이 될 예정
 		int pos_x;//x축 위치

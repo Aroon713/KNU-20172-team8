@@ -21,8 +21,9 @@ int waitinput = 1;
 void main()
 {
 	pbody head=(pbody)malloc(sizeof(body));
-	int c, level;
+	int c, level = 1;
 	pthread_t inputkey;
+
 
 	initscr();
 	noecho();
@@ -31,6 +32,8 @@ void main()
 	getmaxyx(stdscr, row, col);
 	/* 초기 시작화면 */
 	level =	start();
+
+	while(level){
 
 	food_target=(pfood)malloc(sizeof(food));
 	food_target->pos_x=row/2;
@@ -46,6 +49,7 @@ void main()
 	refresh();
 	is_get_food(head);
 	c = 'w';
+	
 	while(1)
 	{
 		move_next_frame(head);
@@ -63,7 +67,13 @@ void main()
 		
 		speedcontrol(body_length, level);//속도 조절부
 	}
-	
+	pthread_cancel(&inputkey);
+	body_length = 1;
+	initscr();
+	clear();
+	level = finish();
+
+	}
 	clear();
 	refresh();
 	endwin();
