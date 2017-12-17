@@ -217,7 +217,7 @@ void snakeMove()//Snakes go forward, upper U, lower D, left L, right R
     {
         nexthead->x = head->x - 2;
         nexthead->y = head->y;
-        if (nexthead->x == food->x && nexthead->y == food->焰)//have food
+        if (nexthead->x == food->x && nexthead->y == food->y)//have food
         {
             nexthead->next = head;
             head = nexthead;
