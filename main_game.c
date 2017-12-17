@@ -18,6 +18,9 @@ void is_get_food(pbody);//음식과 헤드의 위치가 같은지 확인
 void drop_food(pbody);//음식을 랜덤한 위치에 생성
 int check_collision(pbody);
 int waitinput = 1;
+
+void start();//초기 시작화면
+
 void main()
 {
 	pbody head=(pbody)malloc(sizeof(body));
@@ -25,14 +28,16 @@ void main()
 	pthread_t inputkey;
 
 	initscr();
+	noecho();
+	crmode();
 	clear();
 	getmaxyx(stdscr, row, col);
+	/* 초기 시작화면 */
+	start();
+
 	food_target=(pfood)malloc(sizeof(food));
 	food_target->pos_x=row/2;
 	food_target->pos_y=col/2;
-	crmode();
-	noecho();
-	curs_set(0);//커서가 안보이게 하는 명령
 	head->pos_x=row/2;
 	head->pos_y=col/2;
 	head->next_body=NULL;
@@ -57,12 +62,47 @@ void main()
 		if(check_collision(head)==9)break;
 		is_get_food(head);
 		update_frame(head);
-		if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);//스레드를 추가해 입력받기
+		//if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);//스레드를 추가해 입력받기
 		
 		speedcontrol(body_length, 5);//속도 조절부
 	}
-	getchar();
+	
+	clear();
+	refresh();
 	endwin();
+}
+
+void start()
+/*
+ * 초기 시작화면 출력 함수 난이도 상 중 하를 입력받고 초기 속도를 조절합니다.
+ */
+{
+	char level;
+	
+	curs_set(0);
+	move(3, 3);
+	addstr("Welcome to game!!");
+	move(4, 3);
+	addstr("Input level  (hard : 1, normal : 2, easy : 3)");
+	refresh();
+	while (1) {
+		level = getch();
+		if (level == '1') {
+			speedcontrol(body_length, 7);
+			break;
+		}
+		else if (level == '2') {
+			speedcontrol(body_length, 5);
+			break;
+		}
+		else if (level == '3') {
+			speedcontrol(body_length, 3);
+			break;
+		}
+		
+	}
+	clear();
+	refresh();
 }
 
 void move_next_frame(pbody head)

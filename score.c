@@ -12,10 +12,10 @@
 int snake_len(pbody p)
 {
 	int body_length = 1; 
-	while ( p -> nextbody != NULL )
+	while ( p->next_body != NULL )
 	{
 		body_length++;
-		p = p->next;
+		p = p->next_body;
 	}
 	return body_length;
 }
