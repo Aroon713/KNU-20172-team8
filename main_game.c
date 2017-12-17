@@ -1,11 +1,8 @@
-/*#include <stdio.h>
-#include <curses.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <termios.h>
-#include <time.h>
-#include <pthread.h>*/
+/*
+ * main_game.c
+ * main이 들어있다.
+ *
+ */
 #include "snake.h"
 
 int body_length=1;//먹이 먹고 나면 1씩 올릴 예정;
@@ -19,12 +16,12 @@ void drop_food(pbody);//음식을 랜덤한 위치에 생성
 int check_collision(pbody);
 int waitinput = 1;
 
-void start();//초기 시작화면
+
 
 void main()
 {
 	pbody head=(pbody)malloc(sizeof(body));
-	int c;
+	int c, level;
 	pthread_t inputkey;
 
 	initscr();
@@ -33,7 +30,7 @@ void main()
 	clear();
 	getmaxyx(stdscr, row, col);
 	/* 초기 시작화면 */
-	start();
+	level =	start();
 
 	food_target=(pfood)malloc(sizeof(food));
 	food_target->pos_x=row/2;
@@ -64,45 +61,12 @@ void main()
 		update_frame(head);
 		if (waitinput) pthread_create(&inputkey, NULL, getinput, &c);//스레드를 추가해 입력받기
 		
-		speedcontrol(body_length, 5);//속도 조절부
+		speedcontrol(body_length, level);//속도 조절부
 	}
 	
 	clear();
 	refresh();
 	endwin();
-}
-
-void start()
-/*
- * 초기 시작화면 출력 함수 난이도 상 중 하를 입력받고 초기 속도를 조절합니다.
- */
-{
-	char level;
-	
-	curs_set(0);
-	move(3, 3);
-	addstr("Welcome to game!!");
-	move(4, 3);
-	addstr("Input level  (hard : 1, normal : 2, easy : 3)");
-	refresh();
-	while (1) {
-		level = getch();
-		if (level == '1') {
-			speedcontrol(body_length, 7);
-			break;
-		}
-		else if (level == '2') {
-			speedcontrol(body_length, 5);
-			break;
-		}
-		else if (level == '3') {
-			speedcontrol(body_length, 3);
-			break;
-		}
-		
-	}
-	clear();
-	refresh();
 }
 
 void move_next_frame(pbody head)
@@ -164,8 +128,8 @@ void drop_food(pbody head)
 	int pos_x, pos_y;
 	pbody current;
 	srand((unsigned int)time(NULL));
-	pos_x=rand()%row;
-	pos_y=rand()%col;
+	pos_x=rand()%(row-4)+2;//끝자리 안먹는 경우 있어서 모서리 제외
+	pos_y=rand()%(col-4)+2;
 
 /*	while(current->next_body!=NULL)
 	{
